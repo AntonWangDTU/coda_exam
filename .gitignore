@@ -1,0 +1,25 @@
+
+# Common LaTeX auxiliary files
+*.aux
+*.bbl
+*.blg
+*.brf
+*.fls
+*.fdb_latexmk
+*.log
+*.nav
+*.out
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
+*.lof
+*.lot
+
+# PDF and other output files
+*.pdf
+*.dvi
+*.ps
+
+# VimTeX temporary directory (if used)
+build/

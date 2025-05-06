@@ -1,0 +1,539 @@
+ <!DOCTYPE html>
+<html lang="da-DK">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1"/>
+        <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+        <meta http-equiv="cache-control" content="no-cache,no-store"/>
+        <meta http-equiv="pragma" content="no-cache"/>
+        <meta http-equiv="expires" content="-1"/>
+        <meta name='mswebdialog-title' content='Connecting to Logon using DTU credentials'/>
+
+        <title>Log p&#229;</title>
+        <script type='text/javascript'>
+//<![CDATA[
+function LoginErrors(){this.userNameFormatError = 'Angiv dit brugernavn i formatet \u0026quot;dom\u0026#230;ne\\bruger\u0026quot; eller \u0026quot;bruger@dom\u0026#230;ne\u0026quot;.'; this.passwordEmpty = 'Angiv din adgangskode.'; this.passwordTooLong = 'Adgangskoden er for lang (\u0026gt; 128 tegn).';}; var maxPasswordLength = 128;
+//]]>
+</script>
+
+<script type='text/javascript'>
+//<![CDATA[
+// Copyright (c) Microsoft Corporation.  All rights reserved.
+function InputUtil(errTextElementID, errDisplayElementID) {
+
+    if (!errTextElementID)  errTextElementID = 'errorText'; 
+    if (!errDisplayElementID)  errDisplayElementID = 'error'; 
+
+    this.hasFocus = false;
+    this.errLabel = document.getElementById(errTextElementID);
+    this.errDisplay = document.getElementById(errDisplayElementID);
+};
+InputUtil.prototype.canDisplayError = function () {
+    return this.errLabel && this.errDisplay;
+}
+InputUtil.prototype.checkError = function () {
+    if (!this.canDisplayError){
+        throw new Error ('Error element not present');
+    }
+    if (this.errLabel && this.errLabel.innerHTML) {
+        this.errDisplay.style.display = '';        
+        var cause = this.errLabel.getAttribute('for');
+        if (cause) {
+            var causeNode = document.getElementById(cause);
+            if (causeNode && causeNode.value) {
+                causeNode.focus();
+                this.hasFocus = true;
+            }
+        }
+    }
+    else {
+        this.errDisplay.style.display = 'none';
+    }
+};
+InputUtil.prototype.setInitialFocus = function (input) {
+    if (this.hasFocus) return;
+    var node = document.getElementById(input);
+    if (node) {
+        if ((/^\s*$/).test(node.value)) {
+            node.focus();
+            this.hasFocus = true;
+        }
+    }
+};
+InputUtil.prototype.setError = function (input, errorMsg) {
+    if (!this.canDisplayError) {
+        throw new Error('Error element not present');
+    }
+    input.focus();
+
+    if (errorMsg) {
+        this.errLabel.innerHTML = errorMsg;
+    }
+    this.errLabel.setAttribute('for', input.id);
+    this.errDisplay.style.display = '';
+};
+InputUtil.makePlaceholder = function (input) {
+    var ua = navigator.userAgent;
+
+    if (ua != null && 
+        (ua.match(/MSIE 9.0/) != null || 
+         ua.match(/MSIE 8.0/) != null ||
+         ua.match(/MSIE 7.0/) != null)) {
+        var node = document.getElementById(input);
+        if (node) {
+            var placeholder = node.getAttribute("placeholder");
+            if (placeholder != null && placeholder != '') {
+                var label = document.createElement('input');
+                label.type = "text";
+                label.value = placeholder;
+                label.readOnly = true;
+                label.style.position = 'absolute';
+                label.style.borderColor = 'transparent';
+                label.className = node.className + ' hint';
+                label.tabIndex = -1;
+                label.onfocus = function () { this.nextSibling.focus(); };
+
+                node.style.position = 'relative';
+                node.parentNode.style.position = 'relative';
+                node.parentNode.insertBefore(label, node);
+                node.onkeyup = function () { InputUtil.showHint(this); };
+                node.onblur = function () { InputUtil.showHint(this); };
+                node.style.background = 'transparent';
+
+                node.setAttribute("placeholder", "");
+                InputUtil.showHint(node);
+            }
+        }
+    }
+};
+InputUtil.focus = function (inputField) {
+    var node = document.getElementById(inputField);
+    if (node) node.focus();
+};
+InputUtil.hasClass = function(node, clsName) {
+    return node.className.match(new RegExp('(\\s|^)' + clsName + '(\\s|$)'));
+};
+InputUtil.addClass = function(node, clsName) {
+    if (!this.hasClass(node, clsName)) node.className += " " + clsName;
+};
+InputUtil.removeClass = function(node, clsName) {
+    if (this.hasClass(node, clsName)) {
+        var reg = new RegExp('(\\s|^)' + clsName + '(\\s|$)');
+        node.className = node.className.replace(reg, ' ');
+    }
+};
+InputUtil.showHint = function (node, gotFocus) {
+    if (node.value && node.value != '') {
+        node.previousSibling.style.display = 'none';
+    }
+    else {
+        node.previousSibling.style.display = '';
+    }
+};
+InputUtil.updatePlaceholder = function (input, placeholderText) {
+    var node = document.getElementById(input);
+    if (node) {
+        var ua = navigator.userAgent;
+        if (ua != null &&
+            (ua.match(/MSIE 9.0/) != null ||
+            ua.match(/MSIE 8.0/) != null ||
+            ua.match(/MSIE 7.0/) != null)) {
+            var label = node.previousSibling;
+            if (label != null) {
+                label.value = placeholderText;
+            }
+        }
+        else {
+            node.placeholder = placeholderText;
+        }
+    }
+};
+
+//]]>
+</script>
+
+
+        
+        <link rel="stylesheet" type="text/css" href="/adfs/portal/css/style.css?id=691E14DF9321F6BD3085F88D2F29E89CFC2856472A8095F2044BCA0AE1C32BFB" /><style>.illustrationClass {background-image:url(/adfs/portal/illustration/illustration.jpg?id=173A60575F41BE778277273B60DB2B5955644CD00BF1912694110209BFBEF8F4);}</style>
+
+    </head>
+    <body dir="ltr" class="body">
+    <div id="noScript" style="position:static; width:100%; height:100%; z-index:100">
+        <h1>JavaScript er p&#229;kr&#230;vet</h1>
+        <p>JavaScript er p&#229;kr&#230;vet. Denne webbrowser underst&#248;tter ikke JavaScript, eller ogs&#229; er JavaScript ikke aktiveret i webbrowseren.</p>
+        <p>Hvis du vil finde ud af, om din webbrowser underst&#248;tter JavaScript, eller hvis du vil aktivere JavaScript, skal du se i hj&#230;lpen til webbrowseren.</p>
+    </div>
+    <script type="text/javascript" language="JavaScript">
+         document.getElementById("noScript").style.display = "none";
+    </script>
+    <div id="fullPage">
+        <div id="brandingWrapper" class="float">
+            <div id="branding"></div>
+        </div>
+        <div id="contentWrapper" class="float">
+            <div id="content">
+                <div id="header">
+                    <img class='logoImage' id='companyLogo' src='/adfs/portal/logo/logo.jpg?id=ED35C59D60B7CDD81B3F8A0FFE853BA3EE1AD7EF7F4E1CFAEF73B554EF464469' alt='Logon using DTU credentials'/>
+                </div>
+                <div id="workArea">
+                    
+    <div id="authArea" class="groupMargin">
+        
+        
+        
+    <div id="loginArea">        
+        <div id="loginMessage" class="groupMargin">Log p&#229; med din organisationskonto</div>
+
+        <form method="post" id="loginForm" autocomplete="off" novalidate="novalidate" onKeyPress="if (event && event.keyCode == 13) Login.submitLoginRequest();" action="/adfs/ls/?SAMLRequest=jdE7T8MwEADgHYn%2fEHmP7Tgv10oqVbBUKksLDCzIca5tRGIHn4P4%2bbhUCEa2e%2bik7%2b6azRLOdg%2fvC2BItvctQT2N%2fpq%2frnhdyxqqTAtZlJKvACrBNYdjXVWSC5I8g8fB2ZYIykmyRVxgazFoG2KJizLlRSrkY1YpIZUoaF7xPOPyhSQbRPAhzt45i8sE%2fgD%2bYzDwtN%2b15BzCjIqxEbS3dLA49ED7sND%2bjfViZOPMdISz0Z0Gyy7k3SWisUeSz2m02JLFW%2bU0DqisngBVMOqwedipKFWzd8EZN5L17U2SNN9u%2f59B%2faMm6x%2bjKaWpyrxKdReXLY5dn8qy7tIyk3lm4q2MONIANt4EaeeH0zngrA1Q46ZfesOuiAhq2N%2bnrL8A&RelayState=%2fcontent%2fenforced%2f242206-DTU_f25_23257%2f1-amr.csv&client-request-id=8d9f4bd0-1002-47f5-ac00-008001640091" >
+            <div id="error" class="fieldMargin error smallText">
+                <span id="errorText" for=""></span>
+            </div>
+
+            <div id="formsAuthenticationArea">
+                <div id="userNameArea">
+                    <label id="userNameInputLabel" for="userNameInput" class="hidden">Brugerkonto</label>
+                    <input id="userNameInput" name="UserName" type="email" value="" tabindex="1" class="text fullWidth"
+                        spellcheck="false" placeholder="nogen@example.com" autocomplete="off"/>
+                </div>
+
+                <div id="passwordArea">
+                    <label id="passwordInputLabel" for="passwordInput" class="hidden">Adgangskode</label>
+                    <input id="passwordInput" name="Password" type="password" tabindex="2" class="text fullWidth"
+                        placeholder="Adgangskode" autocomplete="off"/>
+                </div>
+                <div id="kmsiArea" style="display:none">
+                    <input type="checkbox" name="Kmsi" id="kmsiInput" value="true" tabindex="3" />
+                    <label for="kmsiInput">Log mig ikke af</label>
+                </div>
+                <div id="submissionArea" class="submitMargin">
+                    <span id="submitButton" class="submit" tabindex="4" role="button"
+                        onKeyPress="if (event && event.keyCode == 32) Login.submitLoginRequest();"
+                        onclick="return Login.submitLoginRequest();">Log p&#229;</span>
+                </div>
+            </div>
+            <input id="optionForms" type="hidden" name="AuthMethod" value="FormsAuthentication"/>
+        </form>
+
+             <div id="authOptions">
+        <form id="options"  method="post" action="https://sts.ait.dtu.dk:443/adfs/ls/?SAMLRequest=jdE7T8MwEADgHYn%2fEHmP7Tgv10oqVbBUKksLDCzIca5tRGIHn4P4%2bbhUCEa2e%2bik7%2b6azRLOdg%2fvC2BItvctQT2N%2fpq%2frnhdyxqqTAtZlJKvACrBNYdjXVWSC5I8g8fB2ZYIykmyRVxgazFoG2KJizLlRSrkY1YpIZUoaF7xPOPyhSQbRPAhzt45i8sE%2fgD%2bYzDwtN%2b15BzCjIqxEbS3dLA49ED7sND%2bjfViZOPMdISz0Z0Gyy7k3SWisUeSz2m02JLFW%2bU0DqisngBVMOqwedipKFWzd8EZN5L17U2SNN9u%2f59B%2faMm6x%2bjKaWpyrxKdReXLY5dn8qy7tIyk3lm4q2MONIANt4EaeeH0zngrA1Q46ZfesOuiAhq2N%2bnrL8A&RelayState=%2fcontent%2fenforced%2f242206-DTU_f25_23257%2f1-amr.csv&client-request-id=8d9f4bd0-1002-47f5-ac00-008001640091">
+            <script type="text/javascript">
+                function SelectOption(option) {
+                    var i = document.getElementById('optionSelection');
+                    i.value = option;
+                    document.forms['options'].submit();
+                    return false;
+                }
+            </script>
+            <input id="optionSelection" type="hidden" name="AuthMethod" />
+            <div id='authOptionLinks' class='groupMargin'></div>
+        </form>
+      </div>
+
+        <div id="introduction" class="groupMargin">
+            <div id='nemidlink' style='display: none'><p> <a href='https://auth.dtu.dk/DTU/nemid'>Logon using MitID</a></p></div><div id='nemidlink2' style='display: none'><p> <a href='https://auth2.dtu.dk/DTU/nemid'>Logon using MitID</a></p></div><script>if (document.location.search.indexOf('redirectfromauth2') != -1) { document.getElementById('nemidlink2').style.display = 'block'; } else if (document.location.search.indexOf('redirectfromauth') != -1) { document.getElementById('nemidlink').style.display = 'block'; }</script><div id='nemidlink' style='display: none'><p> <a href='https://auth.dtu.dk/DTU/nemid'>Logon using MitID</a></p></div><div id='nemidlink2' style='display: none'><p> <a href='https://auth2.dtu.dk/DTU/nemid'>Logon using MitID</a></p></div><script>if (document.location.search.indexOf('redirectfromauth2') != -1) { document.getElementById('nemidlink2').style.display = 'block'; } else if (document.location.search.indexOf('redirectfromauth') != -1) { document.getElementById('nemidlink').style.display = 'block'; }</script>                     
+        </div>
+
+        <script type="text/javascript">
+        //<![CDATA[
+
+            function Login() {
+            }
+
+            Login.userNameInput = 'userNameInput';
+            Login.passwordInput = 'passwordInput';
+
+            Login.initialize = function () {
+
+                var u = new InputUtil();
+
+                u.checkError();
+                u.setInitialFocus(Login.userNameInput);
+                u.setInitialFocus(Login.passwordInput);
+            }();
+
+            Login.submitLoginRequest = function () { 
+                var u = new InputUtil();
+                var e = new LoginErrors();
+
+                var userName = document.getElementById(Login.userNameInput);
+                var password = document.getElementById(Login.passwordInput);
+
+                if (!userName.value || !userName.value.match('[@\\\\]')) {
+                    u.setError(userName, e.userNameFormatError);
+                    return false;
+                }
+
+                if (!password.value) {
+                    u.setError(password, e.passwordEmpty);
+                    return false;
+                }
+
+                if (password.value.length > maxPasswordLength) {
+                    u.setError(password, e.passwordTooLong);
+                    return false;
+                }
+
+                document.forms['loginForm'].submit();
+                return false;
+            };
+
+            InputUtil.makePlaceholder(Login.userNameInput);
+            InputUtil.makePlaceholder(Login.passwordInput);
+        //]]>
+        </script>
+    </div>
+
+    </div>
+
+                </div>
+                <div id="footerPlaceholder"></div>
+            </div>
+            <div id="footer">
+                <div id="footerLinks" class="floatReverse">
+                     <div><span id="copyright">&#169; 2016 Microsoft</span><a id="helpDesk" class="pageLink" href="http://inside.dtu.dk">text</a></div>
+                </div>
+            </div>
+        </div> 
+    </div>
+    <script type='text/javascript'>
+//<![CDATA[
+// Copyright (c) Microsoft Corporation.  All rights reserved.
+
+// This file contains several workarounds on inconsistent browser behaviors that administrators may customize.
+"use strict";
+
+// iPhone email friendly keyboard does not include "\" key, use regular keyboard instead.
+// Note change input type does not work on all versions of all browsers.
+if (navigator.userAgent.match(/iPhone/i) != null) {
+    var emails = document.querySelectorAll("input[type='email']");
+    if (emails) {
+        for (var i = 0; i < emails.length; i++) {
+            emails[i].type = 'text';
+        }
+    }
+}
+
+// In the CSS file we set the ms-viewport to be consistent with the device dimensions, 
+// which is necessary for correct functionality of immersive IE. 
+// However, for Windows 8 phone we need to reset the ms-viewport's dimension to its original
+// values (auto), otherwise the viewport dimensions will be wrong for Windows 8 phone.
+// Windows 8 phone has agent string 'IEMobile 10.0'
+if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+    var msViewportStyle = document.createElement("style");
+    msViewportStyle.appendChild(
+        document.createTextNode(
+            "@-ms-viewport{width:auto!important}"
+        )
+    );
+    msViewportStyle.appendChild(
+        document.createTextNode(
+            "@-ms-viewport{height:auto!important}"
+        )
+    );
+    document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
+}
+
+// If the innerWidth is defined, use it as the viewport width.
+if (window.innerWidth && window.outerWidth && window.innerWidth !== window.outerWidth) {
+    var viewport = document.querySelector("meta[name=viewport]");
+    viewport.setAttribute('content', 'width=' + window.innerWidth + 'px; initial-scale=1.0; maximum-scale=1.0');
+}
+
+// Gets the current style of a specific property for a specific element.
+function getStyle(element, styleProp) {
+    var propStyle = null;
+
+    if (element && element.currentStyle) {
+        propStyle = element.currentStyle[styleProp];
+    }
+    else if (element && window.getComputedStyle) {
+        propStyle = document.defaultView.getComputedStyle(element, null).getPropertyValue(styleProp);
+    }
+
+    return propStyle;
+}
+
+// The script below is used for downloading the illustration image 
+// only when the branding is displaying. This script work together
+// with the code in PageBase.cs that sets the html inline style
+// containing the class 'illustrationClass' with the background image.
+var computeLoadIllustration = function () {
+    var branding = document.getElementById("branding");
+    var brandingDisplay = getStyle(branding, "display");
+    var brandingWrapperDisplay = getStyle(document.getElementById("brandingWrapper"), "display");
+
+    if (brandingDisplay && brandingDisplay !== "none" &&
+        brandingWrapperDisplay && brandingWrapperDisplay !== "none") {
+        var newClass = "illustrationClass";
+
+        if (branding.classList && branding.classList.add) {
+            branding.classList.add(newClass);
+        } else if (branding.className !== undefined) {
+            branding.className += " " + newClass;
+        }
+        if (window.removeEventListener) {
+            window.removeEventListener('load', computeLoadIllustration, false);
+            window.removeEventListener('resize', computeLoadIllustration, false);
+        }
+        else if (window.detachEvent) {
+            window.detachEvent('onload', computeLoadIllustration);
+            window.detachEvent('onresize', computeLoadIllustration);
+        }
+    }
+};
+
+if (window.addEventListener) {
+    window.addEventListener('resize', computeLoadIllustration, false);
+    window.addEventListener('load', computeLoadIllustration, false);
+}
+else if (window.attachEvent) {
+    window.attachEvent('onresize', computeLoadIllustration);
+    window.attachEvent('onload', computeLoadIllustration);
+}
+
+
+// Check whether the Openingmessage element is present on this page.
+var openingMessage = document.getElementById('openingMessage');
+if (openingMessage)
+{
+       // openingMessage element is present, modify its properties.
+       openingMessage.innerHTML = '<br/><br/>DTU Users Can change their password <a href=https://password.dtu.dk/admin/change_password.aspx?lang=en target=_blank >here</a><br/><br/>Guest.dtu.dk users can change their password <a href= https://guest.dtu.dk/Sites/GuestLogin/Default.aspx target=_blank >here</a> <br/><br/><br/><br/>Sign in with one of these accounts';  
+}
+
+
+
+
+// Sample code to change �Sign in with organizational account� string.
+
+// Check whether the loginMessage element is present on this page.
+var loginMessage = document.getElementById('loginMessage');
+if (loginMessage)
+{
+       // loginMessage element is present, modify its properties.
+       loginMessage.innerHTML = 'DTU Users Can change their password <a href=https://password.dtu.dk/admin/change_password.aspx?lang=en target=_blank >here</a><br/><br/>Guest.dtu.dk users can change their password <a href= https://guest.dtu.dk/Sites/GuestLogin/Default.aspx target=_blank >here</a><br/><br/><br/><br/><b>Login in the format:</b><br/><b>DTU Users:</b> username@dtu.dk<br/><b>DTU Students:</b> username@dtu.dk<br/><b>Guest.dtu.dk Users:</b> username@win.dtu.dk';
+}
+
+if (typeof Login != 'undefined'){
+    Login.submitLoginRequest = function () { 
+    var u = new InputUtil();
+    var e = new LoginErrors();
+    var userName = document.getElementById(Login.userNameInput);
+    var password = document.getElementById(Login.passwordInput);
+    if (userName.value && !userName.value.match('[@\\\\]')) 
+    {
+        var userNameValue = 'win\\' + userName.value;
+        document.forms['loginForm'].UserName.value = userNameValue;
+    }
+
+    if (!userName.value) {
+       u.setError(userName, e.userNameFormatError);
+       return false;
+    }
+
+
+    if (!password.value) 
+    {
+        u.setError(password, e.passwordEmpty);
+        return false;
+    }
+    document.forms['loginForm'].submit();
+    return false;
+};
+}
+
+// Check whether the userNameInput element is present on this page.
+var userNameInput = document.getElementById('userNameInput');
+if (userNameInput)
+{
+// userNameInput element is present, modify its properties.
+userNameInput.placeholder = 'User';
+}
+//Check if we are in the HRD page
+if ( document.getElementById("hrdArea") ) {
+    var strADCPName = "DTU Employees Students and Guests" ;
+    //Create an array of all claim provider trust section in the page
+    var listAllSpanForIdp = document.getElementsByClassName("idpDescription float") ;
+    var inc;
+    for (inc = 0; inc < listAllSpanForIdp.length; inc++) {
+        if ( listAllSpanForIdp[ inc ].innerHTML == "<span class=\"largeTextNoWrap indentNonCollapsible\">Active Directory</span>" ) {
+            //Change the HTML content of the matching section to the value specified in the strADCPName variable
+            listAllSpanForIdp[ inc ].innerHTML = "<span class=\"largeTextNoWrap indentNonCollapsible\">"+ strADCPName +"</span>" ;
+        }
+    }
+}
+var listAllIdpImg = document.getElementsByTagName("img");
+var inc;
+for (inc = 0; inc < listAllIdpImg.length; inc++) {
+    switch ( listAllIdpImg[inc].getAttribute('alt') ) {
+        case "WAYF":
+            listAllIdpImg[inc].src = "/adfs/portal/images/idp/WAYF.png" ;
+            break;
+        case "Guests and others (guest.dtu.dk)":
+            listAllIdpImg[inc].src = "/adfs/portal/images/idp/guests.png" ;
+            break;
+        case "Active Directory":
+            listAllIdpImg[inc].src = "/adfs/portal/images/idp/dtu-ikon-comp.png" ;
+            break;
+
+    }
+}
+// Check whether the helpDesk element is present on this page.
+var helpDesk = document.getElementById('helpDesk');
+if (helpDesk)
+{
+       // helpDesk element is present, modify its properties.
+       helpDesk.innerHTML = "<span style='font-size: 15px; font-family: sans-serif;'>Need Help? Please contact IT-Support at DTU:<br/><a href=mailto:itservice@dtu.dk? >itservice@dtu.dk</a> or phone +45 45255555</span>";  
+}
+// Check whether the mfaGreetingDescription element is present on this page.
+var mfaGreetingDescription = document.getElementById('mfaGreetingDescription');
+if (mfaGreetingDescription)
+{
+       // mfaGreetingDescription element is present, modify its properties.
+       mfaGreetingDescription.innerHTML = "<span>For security reasons, we require additional information to verify your account.<br/> <br/> Please use NEMID or Multi-Factor Authentication link below. <br/> <br/> If you want to use Mobile app, you need to install Microsoft Authenticator app on your mobile before scanning QR-Code. <br/> <br/>  Not sure about what this is? Read more about it on Inside here: <a href = 'https://www.inside.dtu.dk/en/medarbejder/it-og-telefoni/it-systemer-og-retningslinjer/it-vejledninger-og-retningslinjer/mfa' target= '_blank'>Getting started with MFA</a></span>";
+}
+
+//Remove On-Prem MFA option 
+if (document.getElementById("AzureMfaServerAuthentication")) 
+{
+var x = document.getElementById("AzureMfaServerAuthentication");
+x.style.display = "none";
+}
+
+function LoginErrors() {
+      this.userNameFormatError = 'Are you a DTU user:<br/> remember to add @dtu.dk after your username.<br/>Are you a guest.dtu.dk user:<br/> remember to add @win.dtu.dk after your username.';
+      this.passwordEmpty = 'Enter your password.';
+  }
+
+var domain_hint = "dtu.dk";
+var mfaSecondFactorErr = "The selected authentication method is not available for";
+var mfaProofupMessage = "You will be automatically redirected in 5 seconds to set up your account for additional security verification. Once you've completed the setup, please return to the application you are attempting to access.<br><br>If you are not redirected automatically, please click <a href='{0}'>here</a>."
+var authArea = document.getElementById("authArea");
+if (authArea) {
+    var errorMessage = document.getElementById("errorMessage");
+    if (errorMessage) {
+        if (errorMessage.innerHTML.indexOf(mfaSecondFactorErr) >= 0) {
+
+            //Hide the error message
+            var openingMessage = document.getElementById("openingMessage");
+            if (openingMessage) {
+                openingMessage.style.display = 'none'
+            }
+            var errorDetailsLink = document.getElementById("errorDetailsLink");
+            if (errorDetailsLink) {
+                errorDetailsLink.style.display = 'none'
+            }
+
+            //Provide a message and redirect to Azure AD MFA Registration Url
+            var mfaRegisterUrl = "https://account.activedirectory.windowsazure.com/proofup.aspx?proofup=1&whr=" + domain_hint;
+            errorMessage.innerHTML = "<br>" + mfaProofupMessage.replace("{0}", mfaRegisterUrl);
+            window.setTimeout(function () { window.location.href = mfaRegisterUrl; }, 5000);
+        }
+    }
+}
+//]]>
+</script>
+
+
+    </body>
+</html> 
+
