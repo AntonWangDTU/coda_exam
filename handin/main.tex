@@ -1,4 +1,5 @@
 \documentclass{article}
+\usepackage[a4paper, margin=2.5cm]{geometry}
 \usepackage{stackengine}
 \usepackage{graphicx}
 \usepackage{caption}
@@ -15,9 +16,37 @@
 \input{figures/stacked_bar.tex}
 
 
+
+\section{Exploratory data analysis}\label{sec: Exploratory} % (fold)
+
+To further explore patterns in the data, a Principal Component Analysis (PCA) was performed by singular value decomposition on the meteorite data.
+Because PCA is very sensitive to outliers some procedures had to be performed on the data in advance of the svd. First,
+the data was centered by pertubing with the geomtric mean. Next, 
+the data total variance of the data was calculated and the data was scaled by this metric. Finally, 
+the data was CLR-transformed; this step ensures that the Euclidean distance metric implied in the SVD is valid for our data.  
+
+The PCA has been visualised using a biplot and screeplot in Fig. \ref{fig:pcabiplot}. The biplot shows the first two principal components of the data with the samples
+represented as points and the variables as arrows. The length of the arrow indicates the importance of the variable in the PCA, and the angle between the arrows indicates how correlated they are.
+The screeplot shows the proportion of variance explained by each principal component, which is useful for determining how many components to retain in the analysis. 
+
+The scree plot shows that with only two components, we can explain 96\% of the variance in the dataset, indicating that the decomposition is highly useful for further analysis
+
+
+
+
+\input{figures/pca_biplot.tex} %
+
 % section  (end)
 
 
+
+
+
+
+
+
+
+%------------------------------------------------------------------------------------%
 \newpage{}
 
 \section{Notes}
@@ -28,30 +57,9 @@ Deadline: 12/5 kl. 14
 
 No collaboration
 
-%Dataset 1: Simple. No zeros. Maybe look up usage of antibitoics in each country.
 
 Dataset 2: Simple. No zeros. Look up metadata: cc, hc, lc \newline
 
-
-%Dataset 3: Medium. Last column: metadata. Lots of zeros. Maybe mislabelling because of mistakes from people handling the data.\newline
-%
-%\textbf{Diet of African Hominidae}
-%Fecal metagenomes from Chimps and human children from Africa. Samples have been mapped against a mitochondrial database and a subset of genera is given as parts. 2 genera refer to the host and the rest are assumed to refer to the diet. Lots of zeros and possibly mismappings and mislabelled samples. Complexity: medium \newline
-%\textbf{ideas}
-%\begin{itemize}
-%  \item Try to check how many has homo/pan ration close to 1 
-%  \item  Try to reduce the parts by amalgamating, so ternary 
-%    plot can be produced 
-%  \item  
-%\end{itemize}
-%
-%Dataset 4: Medium. ASD: Autistic Spectrum Disorders. Counts to bacterial species/genera. Zeros. A and B are ASD-group and control-group (we don’t know which is which). Obvious for ANOVA. \newline
-%
-%Dataset 5: Complex. Structural zeros.
-%
-%Dataset 6: Complex. Requires knowledge about Pokemon… ANOVA is not good here (not one Pokemon significantly better than the other)
-%
-%Dataset 7: Complex. Global top 20 songs. Number of plays in each country. Zeros = not in the national top 200. Below-the-measuring-kind-of-zero.
 
  
 \subsection{Week5 - Chapter5 - Visualisation} 
