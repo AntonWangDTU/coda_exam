@@ -1,9 +1,11 @@
 \section{Exploratory data analysis}
 
+\subsection{Principal component analysis }
+
 To further explore patterns in the data, a Principal Component Analysis (PCA) was performed by singular value decomposition on the meteorite data.
 Because PCA is very sensitive to outliers some procedures had to be performed on the data in advance of the svd. First,
-the data was centered by pertubing with the geomtric mean. Next, 
-the data total variance of the data was calculated and the data was scaled by this metric. Finally, 
+the data was centered by pertubing with the geomtric mean. Next, the data was scaled by the inverse square 
+root of the total variance, normalizing its overall dispersion to prevent domination by highly variable components Finally, 
 the data was CLR-transformed; this step ensures that the Euclidean distance metric implied in the SVD is valid for our data.  
 
 The PCA has been visualised using a biplot and screeplot in Fig. \ref{fig:pcabiplot}. The biplot shows the first two principal components of the data with the samples
@@ -18,3 +20,9 @@ C and the rest of the metals.
 
 
 \input{figures/pca_biplot.tex} %
+
+\subsection{Subcompositional analysis }
+
+From the Fig. \ref{fig:pcabiplot}, we can identify a few subcompostions where two parts loadings vertices 
+are allined, the most profound of these being Carbon perpandicular to 
+
