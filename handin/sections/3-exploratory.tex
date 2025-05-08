@@ -24,7 +24,28 @@ C and the rest of the metals.
 \subsection{Subcompositional analysis }
 
 From the Fig. \ref{fig:pcabiplot}, we can identify a few subcompostions where two parts loadings vertices 
-are allined, the most profound of these being Carbon perpandicular to the MgO and $SiO_2$.
+are allined, the most profound of these being the Carbon loading bein perpandicular to the loadings of MgO and $SiO_2$. This subcomposition can be analysised in a ternary diagram as seen on Fig \ref{fig:ternary}. In this plot, we have first taken out the subcomposition MgO, $SiO_2$, C, applied closure to 100, center the data by pertunbation with the geometrical mean, and then finally we do a svd on this to get the eigenvalues and principal components. Additionally the explained variance of the two components was calculated by $\lambda_{i}^{2} / \sum^{i} \lambda_{i}^{2}$. PC1 describes the variation overwhelmingly well with 94.9\% of the variation in the dataset. On the ternary plot the points represents the samples from these three parts, and the line is plotted by $y = (\alpha \otimes eigenvector_{\mathrm{PC1}}) \oplus g_m$. We see high variance explained by the first PC1 in the dact that the samples are distributed very close to the line, and with a very short distance to the line indicating the very small 5.1\% captures by the PC2. 
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{lrrrrr}
+\hline
+      & MgO      & SiO$_2$   & C         & $\lambda$   & Explained Var \\
+\hline
+PC1   & 1.164    & 1.251     & -2.415    & 2.959       & 94.9\% \\
+PC2   & 0.113    & -0.110    & -0.003    & 0.157       & 5.1\% \\
+\hline
+\end{tabular}
+\caption{PCA Loadings and Explained Variance for MgO, SiO$_2$, and C}
+\label{tab:pca_loadings}
+\end{table}
+
+\paragraph{Balance for PC2}  
+The second principal component (PC2) represents the log-ratio balance between MgO and the combined contributions of SiO$_2$ and C:
+\[
+\mathrm{PC2} = \log\left( \frac{\mathrm{MgO}^{0.113}}{\mathrm{SiO_2}^{0.110} \, C^{0.003}} \right)
+\]
+This balance remains nearly constant across the dataset, reflecting that variations in MgO are proportionally matched by variations in SiO$_2$ and C, leaving only approximately 5\% of the total variance to be explained by PC2. 
 
 
 \input{figures/ternary_plot.tex}
