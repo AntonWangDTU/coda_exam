@@ -18,6 +18,8 @@ At first glance of the biplot we see that all the loadings of the metal oxides t
 perpedicular to the rest of the loadings, which suggests that there is neither a strong nor negative correlation between the 
 C and the rest of the metals. 
 
+\textbf{Say something about the colors of the chondrite types}
+
 
 \input{figures/pca_biplot.tex} %
 
@@ -26,7 +28,7 @@ C and the rest of the metals.
 From the Fig. \ref{fig:pcabiplot}, we can identify a few subcompostions where two parts loadings vertices 
 are allined, the most profound of these being the Carbon loading bein perpandicular to the loadings of MgO and $SiO_2$. This subcomposition can be analysised in a ternary diagram as seen on Fig \ref{fig:ternary}. In this plot, we have first taken out the subcomposition MgO, $SiO_2$, C, applied closure to 100, center the data by pertunbation with the geometrical mean, and then finally we do a svd on this to get the eigenvalues and principal components. Additionally the explained variance of the two components was calculated by $\lambda_{i}^{2} / \sum^{i} \lambda_{i}^{2}$. PC1 describes the variation overwhelmingly well with 94.9\% of the variation in the dataset. On the ternary plot the points represents the samples from these three parts, and the line is plotted by $y = (\alpha \otimes eigenvector_{\mathrm{PC1}}) \oplus g_m$. We see high variance explained by the first PC1 in the dact that the samples are distributed very close to the line, and with a very short distance to the line indicating the very small 5.1\% captures by the PC2. 
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \begin{tabular}{lrrrrr}
 \hline
@@ -51,13 +53,43 @@ This balance remains nearly constant across the dataset, reflecting that variati
 \input{figures/ternary_plot.tex}
 
 
+
+
+
 \subsection{Clusering using self organising maps}
 
+To investigate clustering patterns in the dataset, a self-organizing map (SOM) was trained, as shown in Figure~\ref{fig:SOM}. Prior to training, the data was transformed using the centered log-ratio (clr) transformation. The SOM model, configured with a $10 \times 10$ grid of neurons, revealed clustering patterns among the samples that resembled those observed in the PCA biplot (Figure~\ref{fig:pcabiplot}). For example, the Bali and Allende samples appeared close together, while Kabo stood apart as a distinct outlier.
 
-\input{handin/figures/som_with_data_points}
+\input{figures/som_with_data_points.tex}
+
+To better visualize the sample groupings, the PCA biplot was recolored based on a reduced SOM model using only a $2 \times 2$ neural grid, resulting in four clusters. Additionally, convex hulls were drawn around clusters containing three or more samples. The results of this clustering are presented in Figure~\ref{fig:pcabiplot_som_convexhull}, which clearly demonstrates that the four SOM clusters distinctly separate the samples. As seen in both Figures~\ref{fig:SOM} and \ref{fig:pcabiplot_som_convexhull}, the Bali and Allende samples were placed in the same cluster, while Kabo, consistent with its outlier position in the biplot, was assigned to its own cluster.
+
+\input{figures/pca_biplot_som_convexhull.tex}
+
+The remaining samples were divided between the other two clusters, with the convex hulls showing no overlap, indicating that these clusters contain samples with high internal similarity. The detailed distribution of samples across the four clusters is summarized in Table~\ref{tab:som_clusters}. Interestingly, the SOM clusters do not align clearly with the chondrite types, although the two carbonaceous chondrite samples, Bali and Allende, were clustered together.
+
+\begin{table}[h!]
+\centering
+\caption{Locations and types grouped by SOM Node Cluster}
+\label{tab:som_clusters}
+\begin{tabular}{cccc}
+\toprule
+0 & 1 & 2 & 3 \\
+\midrule
+Allende (cc)  & Kabo (hc) & Efremovka (cc)  & Coolidge (cc) \\
+Bali (cc)     &           & Inman (lc)      & Ankober (hc) \\
+              &           & Khohar (lc)     & Faucett (hc) \\
+              &           &                 & Marilia (hc) \\
+              &           &                 & Hedjaz (lc) \\
+              &           &                 & Hallingeberg (lc) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+To examine whether a link exists between SOM clusters and the geographical locations of the samples, a map was generated (Figure~\ref{fig:locations_som_convexhull}) showing the sample locations colored by their SOM cluster, with convex hulls drawn around the groups. While Figure~\ref{fig:pcabiplot_som_convexhull} shows clear separation between clusters 2 and 3, this separation is not reflected on the geographic map, where no clear spatial patterns are visible between the clusters. This suggests that samples with similar chemical characteristics do not necessarily originate from similar geographic locations.
+
+\input{figures/locations_clusters_convexhull.tex}
 
 
-\input{}
 
-\input{handin/figures/locations_clusters_convexhull}
 

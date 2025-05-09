@@ -1,0 +1,105 @@
+
+
+
+
+
+\subsection{ANOVA of the chondrite types with amalgated parts}
+
+
+We now want to acess which parts that contribute significantly to the difference between the chondrites types. As is stated in Table~\ref{tab:chondrite-types}, the chondrites are charerized by content of overall groups such as metals, carbons etc, consequently the parts that will be analysed for signicant impact will be the an amalgated version of the orinal parts. 
+
+specifically the parts will be amalgated into three parts: Oxides, Metals and Carbon. To produce this supercomposition, the unclosed original 9 parts was amalgated and then closed to 100. 
+
+
+To avoid having to solve the linear model: 
+
+$$
+\hat{x} = \beta_1 \oplus \left[ I(z = 2) \cdot \beta_2 \right] \oplus \left[ I(z = 3) \cdot \beta_3 \right]
+$$
+
+\noindent where:
+\begin{itemize}
+    \item \( \beta_1 \): baseline composition (e.g., for group 1, cc)
+    \item \( \beta_2 \): perturbation for group 2 (hc)
+    \item \( \beta_3 \): perturbation for group 3 (lc)
+    \item \( I(z = k) \): indicator function (1 if \( z = k \), 0 otherwise)
+\end{itemize}
+
+In compositional space, the composition was first isomtric logration tranformed(ILR) using the following binary partition table:
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{lccc}
+\textbf{Balance} & Oxides & Metals & Carbon \\
+\midrule
+$v_1$  & 1  & 1  & -1 \\
+$v_2$  & 1  & -1 & 0  \\
+\end{tabular}
+\end{table}
+
+and the betas for each part was determined using ordinary least squares. These ILR coordinates was then tranformed back to CLR for interpretation:
+
+
+\begin{table}[H]
+\centering
+\caption{CLR Beta Coefficients for hc vs cc and lc vs cc}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Contrast} & Oxides & Metals & Carbon \\
+\midrule
+$CLR(\beta_{hc \, vs \, cc})$ & -0.229 & 2.078 & -1.849 \\
+$CLR(\beta_{lc \, vs \, cc})$ & -0.330 & 0.908 & -0.577 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A new set of binary partitions was created to explore \textbf{balances between parts showing similar effects} based on the previously obtained $CLR(\beta_2)$ (i.e., the contrast between \texttt{lc} vs \texttt{cc}). Specifically, we defined the following balances:
+
+\begin{table}[H]
+\centering
+\caption{New Binary Partition Balances}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Balance} & Oxides & Metals & Carbon \\
+\midrule
+$v_1$ & 1 & -1 & 1 \\
+$v_2$ & -1 & 0 & 1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+To analyze the contribution of these balances, we performed an isometric log-ratio (ILR) transformation of the data using the new balances. We then applied ordinary least squares (OLS) regression on each ILR coordinate using the chondrite type (\texttt{cc}, \texttt{hc}, \texttt{lc}) as the covariate.
+
+For each balance $v_i$, the OLS model is:
+
+\[
+ILR(v_i) = \beta_0 + \beta_{hc} \cdot I(\text{hc}) + \beta_{lc} \cdot I(\text{lc}) + \varepsilon
+\]
+
+where:
+\begin{itemize}
+    \item $\beta_0$: intercept (representing the baseline for \texttt{cc})
+    \item $\beta_{hc}$: contrast (effect) of \texttt{hc} compared to \texttt{cc}
+    \item $\beta_{lc}$: contrast (effect) of \texttt{lc} compared to \texttt{cc}
+    \item $I(\text{hc})$ and $I(\text{lc})$: indicator functions (1 if the sample belongs to that type, 0 otherwise)
+\end{itemize}
+
+The significance of these effects was assessed using the \( t \)-values and \( p \)-values obtained from the model, as shown in Table~\ref{tab:anova_ilr_results}. As presumed from the type definitions, oxides and carbon showed a statistically significant effect in distinguishing the chondrite types, particularly between the carbonaceous (cc) and high-metal (hc) groups, as indicated by the significant \( p \)-value (0.0159) in the Oxides+Carbon balance.
+
+Additionally, the metals balance showed a moderately significant difference (\( p = 0.0454 \)) between the groups, primarily driven by increased metal content in hc relative to cc.
+
+These results support that both the oxide/carbon composition and the metal content are key contributors to the chemical differentiation between chondrite types, with oxides and carbon having the strongest discriminative effect.
+
+\begin{table}[H]
+\centering
+\caption{ANOVA Results per ILR Balance}
+\label{tab:anova_ilr_results}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Balance} & \textbf{Intercept (cc)} & \textbf{Beta hc vs cc} & \textbf{Beta lc vs cc} & \textbf{$t$-value / $p$-value} \\
+\midrule
+Oxides+Carbon & 0.8793 & -2.5447 & -1.1119 & 2.6074 / 0.0159 \\
+Metals & 3.7722 & 1.1458  & 0.1746  & 2.1083 / 0.0454 \\
+\bottomrule
+\end{tabular}
+\end{table}
