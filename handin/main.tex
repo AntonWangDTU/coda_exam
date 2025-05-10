@@ -10,19 +10,45 @@
 \raggedright
 
 \begin{document}
-\today
+
+
+% ----------------------- Frontpage -----------------------
+\begin{titlepage}
+    \centering
+    \vspace*{3cm}
+    
+    {\Huge \bfseries Analysis of chemical composition of meteorite samples \par}
+    \vspace{1cm}
+    
+    {\large Exam assignemt in 23257 Compositional data analysis with applications in genomics spring 2025 \par}
+    \vspace{1.5cm}
+    
+    %{\Large Date: \today \par}
+    %\vspace{1.5cm}
+    
+    {\Large Author: Anton Wang Strandberg s183220 \par}
+    \vspace{2cm}
+    
+    \includegraphics[width=0.7\textwidth]{figures/frontpage.png} % <-- adjust filename as needed
+    \vfill
+    
+    {\large \today \par}
+\end{titlepage}
+
 \tableofcontents
 
 
 
 
-
+\newpage
 %%%-----------------------------sections---------------------------------------%
 
 \input{sections/1-intro.tex}
 \input{sections/2-data_discription_vis.tex}
 \input{sections/3-exploratory.tex}
 \input{sections/4-analysis_chondrite_differece.tex}
+\newpage
+\input{sections/5-conclusions.tex}
 
 
 
@@ -40,34 +66,5 @@
 
 
 %------------------------------------------------------------------------------------%
-\newpage{}
-
-\section{Notes}
-
-Deadline: 12/5 kl. 14
-
-5-10 pages incl. Figures
-
-No collaboration
-
-
-The hand-in should be emailed directly to me. The report should be a pdf or Word doc (or something similar), 5-10 pages long, including figures and tables but excluding code. I do not want to see your code, but if you must show it to me, attach the code as an appendix (which goes beyond the 5-10 pages).\newline
-
-You are free to choose what you want to do with the dataset, as long as it falls within the scope of the course. Not all the analyses that we have discussed during lectures are relevant for all datasets, so choose something you find relevant. Maybe you need to zero-replace and maybe you want to apply closure. You most definitely want to log-ratio transform the data, but which transform you will use is up to you (depending on what you will use it for). Maybe you want to do a PCA or maybe fit a linear model or work on a sub-composition in a ternary diagram. You decide and remember that more is not necessarily better. The success criterion is that you draw some kind of (correct) conclusions on the data. Every exam dataset has been made to have some discoverable effects in them.   \newline
-
-
-
-Dataset 2: Simple. No zeros. Look up metadata: cc, hc, lc \newline
-
-
- 
-\subsection{Week5 - Chapter5 - Visualisation} 
-\subsection{Week6 - Chapter4 - Zero replacement} 
-\subsection{Week7 - Chapter6 - Exploratory data analysis } 
-\subsection{Week9 - Chapter8 - Linear analysis ANOVA} 
-
-
-
-\section{Title}
 
 \end{document}

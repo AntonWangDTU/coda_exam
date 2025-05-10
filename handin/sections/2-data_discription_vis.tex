@@ -1,7 +1,6 @@
-\section{Data description and Visualisation}
+\section{Data Description and Visualisation}
 
-The dataset chosen for this assignment is the meteorite compositional data. The data consists of 12 samples 
-from different geographical locations see Fig. \ref{fig:locations}, each sample is composition consisting of 9 parts. The 9 parts are the metaloxides: \{FeO, Al2O3, MgO, SiO2, MnO\}, the metals \{Fw, Ni, Co\} and Carbon(C). Besides a location, each sample also had chondrite type, a summary of these can be seen in tabble \ref{tab:chondrite-types}.
+The dataset used in this assignment consists of meteorite compositional data. Specifically, it contains 12 samples collected from different geographical locations (see Fig.~\ref{fig:locations_som_convexhull}). Each sample records the composition across nine parts: the metal oxides \{FeO, Al$_2$O$_3$, MgO, SiO$_2$, MnO\}, the metals \{Fe, Ni, Co\}, and carbon (C). In addition to the compositional data, each sample is associated with a chondrite type, summarized in Table~\ref{tab:chondrite-types}.
 
 \begin{table}[H]
 \centering
@@ -16,20 +15,14 @@ lc & \textbf{Low-iron chondrite} (L chondrite): ordinary chondrite with lower me
 \label{tab:chondrite-types}
 \end{table}
 
+It is important to note that the raw compositional data are not closed (i.e., they do not sum to a constant value such as 100). For the purposes of this analysis, all compositions were closed to a total sum of 100, a standard preprocessing step for compositional data. This transformation ensures that the data adhere to the properties of compositional space, where only the relative proportions between components carry meaningful information.
 
+Additionally, the data exhibit key features typical of compositional datasets: the dominance of certain components (e.g., SiO$_2$, FeO, and MgO) and the inherently relative nature of the measurements, where increases in one part necessarily imply decreases in others due to the constant sum constraint.
 
-%Notes 
-%Something abouth the fact that data is not closed to same amount
-%Be clear about the fact that the data is closed for the remainder of the assignment
-%Something about waht makes the data compositional 
-% ALso just say something abouth the fact that there is generally a lot more of MgO SiO2 and FeO than any of the aprts:w
+To provide an overview of the data, a stacked bar plot was created for each sample, shown in Fig.~\ref{fig:stacked}, after applying closure to 100. Visual inspection of this plot reveals substantial variation in the abundance of certain parts across samples, while components like SiO$_2$, FeO, and MgO consistently make up the majority of the overall composition regardless of sample.
 
-
+To further explore compositional similarities between samples, a clustermap was generated (Fig.~\ref{fig:clustermap}). This visualisation highlights patterns such as the clustering of samples Bali and Allende, which stand out due to their high metal content, and the distinct position of Kabo, characterized by a notably high carbon content.
 
 \input{figures/stacked_bar.tex}
 
-
-
-
 \input{figures/clustermap.tex}
-

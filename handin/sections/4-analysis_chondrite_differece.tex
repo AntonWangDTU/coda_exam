@@ -1,21 +1,15 @@
 
+\section{Assessment of Significant Contributors to Chondrite Type Differences using ANOVA}
 
+The goal of this section is to assess which parts contribute significantly to the differences between the chondrite types. As indicated in Table~\ref{tab:chondrite-types}, the chondrites are characterized by the content of overall groups such as metals, carbons, and oxides. Consequently, the parts selected for significant impact analysis are based on an amalgamated version of the original components.
 
+Specifically, the components are grouped into three categories: Oxides, Metals, and Carbon. To construct this supercomposition, the original nine unclosed parts were amalgamated and subsequently closed to sum to 100.
 
+To avoid directly solving the linear model:
 
-\subsection{ANOVA of the chondrite types with amalgated parts}
-
-
-We now want to acess which parts that contribute significantly to the difference between the chondrites types. As is stated in Table~\ref{tab:chondrite-types}, the chondrites are charerized by content of overall groups such as metals, carbons etc, consequently the parts that will be analysed for signicant impact will be the an amalgated version of the orinal parts. 
-
-specifically the parts will be amalgated into three parts: Oxides, Metals and Carbon. To produce this supercomposition, the unclosed original 9 parts was amalgated and then closed to 100. 
-
-
-To avoid having to solve the linear model: 
-
-$$
+\[
 \hat{x} = \beta_1 \oplus \left[ I(z = 2) \cdot \beta_2 \right] \oplus \left[ I(z = 3) \cdot \beta_3 \right]
-$$
+\]
 
 \noindent where:
 \begin{itemize}
@@ -25,7 +19,7 @@ $$
     \item \( I(z = k) \): indicator function (1 if \( z = k \), 0 otherwise)
 \end{itemize}
 
-In compositional space, the composition was first isomtric logration tranformed(ILR) using the following binary partition table:
+the composition was first transformed using the isometric log-ratio (ILR) transformation based on the following binary partition table:
 
 \begin{table}[h!]
 \centering
@@ -37,8 +31,7 @@ $v_2$  & 1  & -1 & 0  \\
 \end{tabular}
 \end{table}
 
-and the betas for each part was determined using ordinary least squares. These ILR coordinates was then tranformed back to CLR for interpretation:
-
+The beta coefficients for each part were then estimated using ordinary least squares (OLS). These ILR coordinates were subsequently transformed back to centered log-ratio (CLR) coordinates for interpretation:
 
 \begin{table}[H]
 \centering
@@ -53,7 +46,7 @@ $CLR(\beta_{lc \, vs \, cc})$ & -0.330 & 0.908 & -0.577 \\
 \end{tabular}
 \end{table}
 
-A new set of binary partitions was created to explore \textbf{balances between parts showing similar effects} based on the previously obtained $CLR(\beta_2)$ (i.e., the contrast between \texttt{lc} vs \texttt{cc}). Specifically, we defined the following balances:
+To further explore the \textbf{balances between parts showing similar effects} based on the previously obtained $CLR(\beta_2)$ (i.e., the contrast between \texttt{lc} vs \texttt{cc}), a new set of binary partitions was defined:
 
 \begin{table}[H]
 \centering
@@ -68,9 +61,9 @@ $v_2$ & -1 & 0 & 1 \\
 \end{tabular}
 \end{table}
 
-To analyze the contribution of these balances, we performed an isometric log-ratio (ILR) transformation of the data using the new balances. We then applied ordinary least squares (OLS) regression on each ILR coordinate using the chondrite type (\texttt{cc}, \texttt{hc}, \texttt{lc}) as the covariate.
+The contribution of these balances was analyzed by applying an ILR transformation using the new balances, followed by OLS regression on each ILR coordinate, using chondrite type (\texttt{cc}, \texttt{hc}, \texttt{lc}) as the covariate.
 
-For each balance $v_i$, the OLS model is:
+For each balance $v_i$, the OLS model is given by:
 
 \[
 ILR(v_i) = \beta_0 + \beta_{hc} \cdot I(\text{hc}) + \beta_{lc} \cdot I(\text{lc}) + \varepsilon
@@ -84,11 +77,11 @@ where:
     \item $I(\text{hc})$ and $I(\text{lc})$: indicator functions (1 if the sample belongs to that type, 0 otherwise)
 \end{itemize}
 
-The significance of these effects was assessed using the \( t \)-values and \( p \)-values obtained from the model, as shown in Table~\ref{tab:anova_ilr_results}. As presumed from the type definitions, oxides and carbon showed a statistically significant effect in distinguishing the chondrite types, particularly between the carbonaceous (cc) and high-metal (hc) groups, as indicated by the significant \( p \)-value (0.0159) in the Oxides+Carbon balance.
+The significance of these effects was evaluated using the \( t \)-values and \( p \)-values from the model, as shown in Table~\ref{tab:anova_ilr_results}. As expected from the type definitions, oxides and carbon exhibited statistically significant effects in distinguishing the chondrite types, particularly between the carbonaceous (cc) and high-metal (hc) groups, as indicated by the significant \( p \)-value (0.0159) in the Oxides+Carbon balance.
 
-Additionally, the metals balance showed a moderately significant difference (\( p = 0.0454 \)) between the groups, primarily driven by increased metal content in hc relative to cc.
+Additionally, the metals balance displayed a moderately significant difference (\( p = 0.0454 \)) between the groups, primarily driven by the increased metal content in hc relative to cc.
 
-These results support that both the oxide/carbon composition and the metal content are key contributors to the chemical differentiation between chondrite types, with oxides and carbon having the strongest discriminative effect.
+These findings indicate that both the oxide/carbon composition and the metal content are key contributors to the chemical differentiation between chondrite types, with oxides and carbon exerting the strongest discriminative effect.
 
 \begin{table}[H]
 \centering
